@@ -36,15 +36,34 @@ export default function App() {
     }
   }, []);
 
-  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const username = formData.get("username") as string;
+    const password = formData.get("password") as string;
     
-    const newUser = { username };
-    setUser(newUser);
-    localStorage.setItem("fabric_guard_user", JSON.stringify(newUser));
-    setPage("dashboard");
+    setLoading(true);
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        setUser(data.user);
+        localStorage.setItem("fabric_guard_user", JSON.stringify(data.user));
+        setPage("dashboard");
+      } else {
+        alert(data.message || "Login failed");
+      }
+    } catch (error) {
+      alert("Connection error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleLogout = () => {

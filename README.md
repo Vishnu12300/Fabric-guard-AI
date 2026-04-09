@@ -1,20 +1,37 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# FABRIC GUARD AI - Deployment Guide
 
-# Run and deploy your AI Studio app
+## Deploying to Vercel
 
-This contains everything you need to run your app locally.
+To deploy this application to Vercel and connect the Gemini API, follow these steps:
 
-View your app in AI Studio: https://ai.studio/apps/a50dec6c-74fe-422e-b3c5-410dc22b9e08
+### 1. Push to GitHub
+Push your code to a GitHub repository.
 
-## Run Locally
+### 2. Import to Vercel
+1. Go to [Vercel](https://vercel.com) and click **"Add New"** > **"Project"**.
+2. Import your GitHub repository.
 
-**Prerequisites:**  Node.js
+### 3. Configure Environment Variables
+This is the most important step to "connect the Gemini API":
+1. In the Vercel project settings, go to the **"Environment Variables"** section.
+2. Add a new variable:
+   - **Key**: `GEMINI_API_KEY`
+   - **Value**: Your Google Gemini API Key (get it from [Google AI Studio](https://aistudio.google.com/app/apikey)).
+3. Click **"Save"**.
 
+### 4. Deploy
+1. Click **"Deploy"**.
+2. Vercel will build the Vite frontend and the serverless API functions.
+3. The `vite.config.ts` is already configured to inject the `GEMINI_API_KEY` into the frontend during the build process.
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Local Development
+1. Clone the repo.
+2. Create a `.env` file and add `GEMINI_API_KEY=your_key`.
+3. Run `npm install`.
+4. Run `npm run dev`.
+
+## Features
+- **Live Camera Detection**: Uses WebRTC to capture frames.
+- **Image Upload**: Supports drag-and-drop or file selection.
+- **AI Analysis**: Powered by Gemini 3 Flash.
+- **Secure Dashboard**: Simple login system.
